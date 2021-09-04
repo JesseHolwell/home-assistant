@@ -1,0 +1,76 @@
+- id: '1629122080494'
+  alias: Thermostat_Day
+  description: ''
+  trigger:
+  - platform: time
+    at: 08:00:00
+  - platform: homeassistant
+    event: start
+  - platform: state
+    entity_id: input_number.climate_temperature_day
+  condition:
+  - condition: time
+    after: 08:00:00
+    before: '23:59:59'
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+  action:
+  - service: climate.set_temperature
+    target:
+      entity_id: climate.thermostat
+    data:
+      temperature: '{{ states("input_number.climate_temperature_day") }}'
+  mode: single
+- id: '1629122257639'
+  alias: Thermostat_Night
+  description: ''
+  trigger:
+  - platform: time
+    at: 00:00:00
+  - platform: homeassistant
+    event: start
+  - platform: state
+    entity_id: input_number.climate_temperature_night
+  condition:
+  - condition: time
+    after: 00:00:00
+    before: 07:59:59
+    weekday:
+    - sun
+    - mon
+    - tue
+    - wed
+    - thu
+  action:
+  - service: climate.set_temperature
+    target:
+      entity_id: climate.thermostat
+    data:
+      temperature: '{{ states("input_number.climate_temperature_night") }}'
+  mode: single
+- id: '1629630282847'
+  alias: On Start
+  description: ''
+  trigger:
+  - platform: homeassistant
+    event: start
+  condition: []
+  action:
+  - service: climate.turn_on
+    target:
+      entity_id: climate.thermostat
+  mode: single
+- id: '1629684157140'
+  alias: PC - Set Volume
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_number.pc_volume
+  condition: []
+  action:
+  - service: script.pc_vol_set
+  mode: single
