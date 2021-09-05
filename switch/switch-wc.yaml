@@ -1,0 +1,13 @@
+# Switches
+# Work Computer
+
+- platform: template
+  switches:
+    wc:
+      friendly_name: "Work Computer"
+      value_template: "{{ is_state('binary_sensor.wc_connected', 'on') }}"
+      turn_on:
+        service: script.wc_wake
+      turn_off:
+        service: script.wc_suspend
+      icon_template: mdi:laptop

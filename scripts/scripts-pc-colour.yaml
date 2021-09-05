@@ -1,0 +1,70 @@
+pc_wallpaper_play:
+  alias: PC - Wallpaper Play
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-pc/commands/run
+        payload:
+          '{ "command": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\wallpaper_engine\\wallpaper32.exe",
+          "path": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\wallpaper_engine",
+          "args": "-control play",
+          "user": "", "visible": true, "fallback": true }'
+
+pc_wallpaper_pause:
+  alias: PC - Wallpaper Pause
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-pc/commands/run
+        payload:
+          '{ "command": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\wallpaper_engine\\wallpaper32.exe",
+          "path": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\wallpaper_engine",
+          "args": "-control pause",
+          "user": "", "visible": true, "fallback": true }'
+
+pc_wallpaper_bubbles:
+  alias: PC - Wallpaper Bubbles
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-pc/commands/run
+        payload:
+          '{ "command": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\wallpaper_engine\\wallpaper32.exe",
+          "path": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\wallpaper_engine",
+          "args": "-control openWallpaper -file \"C:\\Program Files (x86)\\Steam\\steamapps\\common\\wallpaper_engine\\projects\\defaultprojects\\shimmering_particles\\project.json\"",
+          "user": "", "visible": true, "fallback": true }'
+
+pc_wallpaper_beach:
+  alias: PC - Wallpaper Beach
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-pc/commands/run
+        payload:
+          '{ "command": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\wallpaper_engine\\wallpaper32.exe",
+          "path": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\wallpaper_engine",
+          "args": "-control openWallpaper -file \"C:\\Program Files (x86)\\Steam\\steamapps\\workshop\\content\\431960\\1923469754\\project.json\"",
+          "user": "", "visible": true, "fallback": true }'
+
+pc_wallpaper_wolf:
+  alias: PC - Wallpaper Wolf
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-pc/commands/run
+        payload:
+          '{ "command": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\wallpaper_engine\\wallpaper32.exe",
+          "path": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\wallpaper_engine",
+          "args": "-control openWallpaper -file \"C:\\Program Files (x86)\\Steam\\steamapps\\workshop\\content\\431960\\1661519625\\project.json\"",
+          "user": "", "visible": true, "fallback": true }'
+# pc_wallpaper_set:
+#   alias: PC - Wallpaper Set
+#   sequence:
+#     - service: mqtt.publish
+#       data:
+#         topic: iotlink/workgroup/jesse-pc/commands/run
+#         payload:
+#           '{ "command": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\wallpaper_engine\\wallpaper32.exe",
+#           "path": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\wallpaper_engine",
+#           "args": "-control pause",
+#           "user": "", "visible": true, "fallback": true }'

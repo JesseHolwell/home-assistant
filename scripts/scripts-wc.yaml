@@ -1,0 +1,142 @@
+# Scripts
+# Work Computer
+
+wc_wake:
+  alias: WC - Wake
+  sequence:
+    - service: wake_on_lan.send_magic_packet
+      data:
+        mac: A4-BB-6D-46-A0-AB
+
+# IOTLink
+wc_shutdown:
+  alias: WC - Shutdown
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/pi/jdh-pc/commands/shutdown
+        payload: ""
+wc_suspend:
+  alias: WC - Suspend
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/pi/jdh-pc/commands/suspend
+        payload: ""
+wc_hibernate:
+  alias: WC - Hibernate
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/pi/jdh-pc/commands/hibernate
+        payload: ""
+wc_reboot:
+  alias: WC - Reboot
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/pi/jdh-pc/commands/reboot
+        payload: ""
+wc_lock:
+  alias: WC - Lock
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/pi/jdh-pc/commands/lock
+        payload: ""
+wc_logoff:
+  alias: WC - Logoff
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/pi/jdh-pc/commands/logoff
+        payload: ""
+# pc_vol_mute:
+#   alias: PC - Toggle Mute
+#   sequence:
+#     - service: mqtt.publish
+#       data:
+#         topic: iotlink/workgroup/jesse-pc/commands/volume/mute
+#         payload: ""
+# pc_vol_max:
+#   alias: PC - Vol Max
+#   sequence:
+#     - service: mqtt.publish
+#       data:
+#         topic: iotlink/workgroup/jesse-pc/commands/volume/set
+#         payload: "100"
+wc_displays_on:
+  alias: WC - Displays ON
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/pi/jdh-pc/commands/displays/on
+        payload: ""
+wc_displays_off:
+  alias: WC - Displays OFF
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/pi/jdh-pc/commands/displays/off
+        payload: ""
+wc_refresh:
+  alias: WC - Refresh
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/pi/jdh-pc/refresh
+        payload: ""
+wc_notify:
+  alias: WC - Notify
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/pi/jdh-pc/commands/notify
+        payload:
+          '{ "title": "My Notification Title", "message": "This is an example
+          of notification using IOT Link", "launchParams": "toast://open/https://iotlink.gitlab.io"
+          }'
+wc_run_chrome:
+  alias: WC - Run Chrome
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/pi/jdh-pc/commands/run
+        payload:
+          '{ "command": "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+          "args": "https://iotlink.gitlab.io", "path": "C:\\Program Files (x86)\\Google\\Chrome\\Application",
+          "user": "", "visible": true, "fallback": true }'
+wc_run_ccleaner:
+  alias: WC - Run CCleaner
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/pi/jdh-pc/commands/run
+        payload:
+          '{ "command": "C:\\Program Files\\CCleaner\\CCleaner64.exe", "args":
+          "/AUTO", "path": "C:\\Program Files\\CCleaner\\", "user": "", "visible": true,
+          "fallback": true }'
+wc_media_playpause:
+  alias: WC - Media Play/Pause
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/pi/jdh-pc/commands/media/playpause
+        payload: ""
+  mode: single
+wc_media_next:
+  alias: WC - Media Next
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/pi/jdh-pc/commands/media/next
+        payload: ""
+  mode: single
+wc_media_previous:
+  alias: WC - Media Previous
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/pi/jdh-pc/commands/media/previous
+        payload: ""
+  mode: single

@@ -1,0 +1,157 @@
+# Scripts
+# Personal Computer
+
+pc_wake:
+  alias: PC - Wake
+  sequence:
+    - service: wake_on_lan.send_magic_packet
+      data:
+        mac: 24-4B-FE-5A-8F-88
+
+# IOTLink
+pc_shutdown:
+  alias: PC - Shutdown
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-pc/commands/shutdown
+        payload: ""
+pc_suspend:
+  alias: PC - Suspend
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-pc/commands/suspend
+        payload: ""
+pc_hibernate:
+  alias: PC - Hibernate
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-pc/commands/hibernate
+        payload: ""
+pc_reboot:
+  alias: PC - Reboot
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-pc/commands/reboot
+        payload: ""
+pc_lock:
+  alias: PC - Lock
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-pc/commands/lock
+        payload: ""
+pc_logoff:
+  alias: PC - Logoff
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-pc/commands/logoff
+        payload: ""
+# pc_vol_mute:
+#   alias: PC - Toggle Mute
+#   sequence:
+#     - service: mqtt.publish
+#       data:
+#         topic: iotlink/workgroup/jesse-pc/commands/volume/mute
+#         payload: ""
+# pc_vol_max:
+#   alias: PC - Vol Max
+#   sequence:
+#     - service: mqtt.publish
+#       data:
+#         topic: iotlink/workgroup/jesse-pc/commands/volume/set
+#         payload: "100"
+pc_vol_set:
+  alias: PC - Vol Set
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-pc/audio-commands/audio/volume
+        payload: '{{ states("input_number.pc_volume") }}'
+pc_vol_mute:
+  alias: PC - Vol Mute
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-pc/audio-commands/audio/mute
+        payload: ""
+  mode: single
+pc_displays_on:
+  alias: PC - Displays ON
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-pc/commands/displays/on
+        payload: ""
+pc_displays_off:
+  alias: PC - Displays OFF
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-pc/commands/displays/off
+        payload: ""
+pc_refresh:
+  alias: PC - Refresh
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-pc/refresh
+        payload: ""
+pc_notify:
+  alias: PC - Notify
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-pc/commands/notify
+        payload:
+          '{ "title": "My Notification Title", "message": "This is an example
+          of notification using IOT Link", "launchParams": "toast://open/https://iotlink.gitlab.io"
+          }'
+pc_run_chrome:
+  alias: PC - Run Chrome
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-pc/commands/run
+        payload:
+          '{ "command": "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+          "args": "https://iotlink.gitlab.io", "path": "C:\\Program Files (x86)\\Google\\Chrome\\Application",
+          "user": "", "visible": true, "fallback": true }'
+pc_run_ccleaner:
+  alias: PC - Run CCleaner
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-pc/commands/run
+        payload:
+          '{ "command": "C:\\Program Files\\CCleaner\\CCleaner64.exe", "args":
+          "/AUTO", "path": "C:\\Program Files\\CCleaner\\", "user": "", "visible": true,
+          "fallback": true }'
+pc_media_playpause:
+  alias: PC - Media Play/Pause
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-pc/commands/media/playpause
+        payload: ""
+  mode: single
+pc_media_next:
+  alias: PC - Media Next
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-pc/commands/media/next
+        payload: ""
+  mode: single
+pc_media_previous:
+  alias: PC - Media Previous
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-pc/commands/media/previous
+        payload: ""
+  mode: single

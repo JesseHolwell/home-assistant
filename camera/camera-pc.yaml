@@ -1,0 +1,7 @@
+# Cameras
+# Personal Computer
+
+# TODO: Is this even needed? Was it automatically added?
+- platform: mqtt
+  name: "PC - Screen 0"
+  topic: "iotlink/workgroup/jesse-pc/windows-monitor/stats/display/0/screen"

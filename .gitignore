@@ -1,27 +1,45 @@
-WARNING: Make your GitHub repo Private if you are using this as it is
-# Example .gitignore file for your config dir.
-# An * ensures that everything will be ignored.
-*
-# You can whitelist files/folders with !, these will not be ignored.
-!*.yaml
-!.gitignore
-!*.md
-!*.sh
-!*.js*
+# Inspiration: https://github.com/CCOSTAN/Home-AssistantConfig/blob/master/.gitignore
 
-# Comment these 2 lines if you don't want to include your SSH keys
-!.ssh/
-!id_rsa*
-
-# Comment this if you don't want to include your Node-RED flows.
-# This is only valid if you install Node-RED as Home Assistant Add-on
-!node-red/
-
-# Uncomment this if you don' want to include secrets.yaml 
-secrets.yaml
-
-# Ignore these files/folders
-.storage
+*.pid
+*.xml
+*.csr
+*.crt
+*.key
+*.conf
+*.pickle
+*.db-journal
+*.db-shm
+*.db-wal
+*.sqlite
+*.log   
+*.db
+*.sqlite
 .cloud
-.google.token 
+.storage
+.google.token
+.uuid
+core.*
+core
+OZW_Log.txt
 home-assistant.log
+home-assistant_v2.db
+deps
+icloud
+__pycache__
+hacs
+alexa_media
+custom_components
+image
+tts
+secrets.yaml
+secrets
+known_devices.yaml
+.homekit.state
+phue.conf
+ios.conf
+pyozw.sqlite
+nest.conf
+ipchange.yaml
+ip_bans.yaml
+production_auth.json
+id_rsa*
