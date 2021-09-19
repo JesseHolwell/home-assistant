@@ -3,7 +3,7 @@
 #
 kibibit:
   # Global
-  background-image: "center / cover no-repeat fixed #181a1b"
+  background-image: "center / cover no-repeat fixed #111111"
   lovelace-background: var(--background-image)
   primary-color: "#209cee"
   light-primary-color: "#B6B6C1"

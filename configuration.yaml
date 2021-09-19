@@ -27,12 +27,60 @@ scene: !include scenes.yaml
 script: !include_dir_merge_named scripts/
 
 # Custom stuff
-binary_sensor: !include_dir_merge_named binary_sensor/
+
+# binary_sensor: !include_dir_merge_named binary_sensor/
 camera: !include_dir_merge_named camera/
 climate: !include climate.yaml
 device_tracker: !include device_tracker.yaml
 sensor: !include_dir_merge_named sensor/
-switch: !include_dir_merge_named switch/
+# switch: !include_dir_merge_named switch/
+
+# Why wont this include
+binary_sensor:
+  - platform: mqtt
+    name: "PC - Connected"
+    state_topic: "iotlink/workgroup/jesse-pc/lwt"
+    value_template: "{{ value }}"
+    payload_on: "ON"
+    payload_off: "OFF"
+    device_class: "connectivity"
+    qos: 1
+  - platform: mqtt
+    name: "WC - Connected"
+    state_topic: "iotlink/workgroup/jdh-pc/lwt"
+    value_template: "{{ value }}"
+    payload_on: "ON"
+    payload_off: "OFF"
+    device_class: "connectivity"
+    qos: 1
+
+switch:
+  - platform: template
+    switches:
+      pc_connected:
+        friendly_name: "My PC"
+        value_template: "{{ is_state('binary_sensor.pc_connected', 'on') }}"
+        turn_on:
+          service: script.pc_wake
+        turn_off:
+          service: script.pc_suspend
+        icon_template: mdi:laptop
+      wc_connected:
+        friendly_name: "Work PC"
+        value_template: "{{ is_state('binary_sensor.wc_connected', 'on') }}"
+        turn_on:
+          service: script.wc_wake
+        turn_off:
+          service: script.wc_suspend
+        icon_template: mdi:laptop
+      tablet_connected:
+        friendly_name: "Tablet PC"
+        value_template: "{{ is_state('binary_sensor.tablet_connected', 'on') }}"
+        turn_on:
+          service: script.tablet_wake
+        turn_off:
+          service: script.tablet_suspend
+        icon_template: mdi:laptop
 
 template:
   - sensors:
@@ -48,12 +96,3 @@ template:
         friendly_name: "Outside Wind Speed"
         unit_of_measurement: "km/h"
         value_template: "{{ state_attr('weather.home', 'wind_speed') }}"
-  - switches:
-      pc_connected:
-        friendly_name: "Personal Computer"
-        value_template: "{{ is_state('binary_sensor.pc_connected', 'on') }}"
-        turn_on:
-          service: script.pc_wake
-        turn_off:
-          service: script.pc_suspend
-        icon_template: mdi:laptop

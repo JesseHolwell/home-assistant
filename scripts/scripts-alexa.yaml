@@ -1,0 +1,59 @@
+# Scripts for Alexa
+
+goodnight:
+  alias: Goodnight
+  sequence:
+    - service: script.desk_speaker_screen_off
+    - service: script.bedside_speaker_screen_off
+    - service: script.pc_suspend
+    - service: script.wc_suspend
+    - service: script.tablet_suspend
+    - service: light.turn_off
+      entity_id: all
+
+goodmorning:
+  alias: Goodmorning
+  sequence:
+    - service: script.desk_speaker_screen_on
+    - service: script.bedside_speaker_screen_on
+    - service: script.pc_wake
+    # - service: script.wc_wake # if workday
+    - service: script.tablet_wake
+    - service: light.turn_on
+      entity_id: all
+
+desk_speaker_screen_off:
+  alias: Desk Speaker - Screen Off
+  sequence:
+    service: media_player.play_media
+    data:
+      entity_id: media_player.desk_speaker
+      media_content_id: "turn screen off"
+      media_content_type: custom
+
+bedside_speaker_screen_off:
+  alias: Bedside Speaker - Screen Off
+  sequence:
+    service: media_player.play_media
+    data:
+      entity_id: media_player.bedside_speaker
+      media_content_id: "turn screen off"
+      media_content_type: custom
+
+desk_speaker_screen_on:
+  alias: Desk Speaker - Screen On
+  sequence:
+    service: media_player.play_media
+    data:
+      entity_id: media_player.desk_speaker
+      media_content_id: "turn screen on"
+      media_content_type: custom
+
+bedside_speaker_screen_on:
+  alias: Bedside Speaker - Screen On
+  sequence:
+    service: media_player.play_media
+    data:
+      entity_id: media_player.bedside_speaker
+      media_content_id: "turn screen on"
+      media_content_type: custom

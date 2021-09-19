@@ -1,0 +1,157 @@
+# Scripts
+# Personal Computer
+
+tablet_wake:
+  alias: Tablet - Wake
+  sequence:
+    - service: wake_on_lan.send_magic_packet
+      data:
+        mac: C0-33-5E-28-7B-DD
+
+# IOTLink
+tablet_shutdown:
+  alias: Tablet - Shutdown
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-tablet/commands/shutdown
+        payload: ""
+tablet_suspend:
+  alias: Tablet - Suspend
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-tablet/commands/suspend
+        payload: ""
+tablet_hibernate:
+  alias: Tablet - Hibernate
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-tablet/commands/hibernate
+        payload: ""
+tablet_reboot:
+  alias: Tablet - Reboot
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-tablet/commands/reboot
+        payload: ""
+tablet_lock:
+  alias: Tablet - Lock
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-tablet/commands/lock
+        payload: ""
+tablet_logoff:
+  alias: Tablet - Logoff
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-tablet/commands/logoff
+        payload: ""
+# tablet_vol_mute:
+#   alias: Tablet - Toggle Mute
+#   sequence:
+#     - service: mqtt.publish
+#       data:
+#         topic: iotlink/workgroup/jesse-tablet/commands/volume/mute
+#         payload: ""
+# tablet_vol_max:
+#   alias: Tablet - Vol Max
+#   sequence:
+#     - service: mqtt.publish
+#       data:
+#         topic: iotlink/workgroup/jesse-tablet/commands/volume/set
+#         payload: "100"
+tablet_vol_set:
+  alias: Tablet - Vol Set
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-tablet/audio-commands/audio/volume
+        payload: '{{ states("input_number.tablet_volume") }}'
+tablet_vol_mute:
+  alias: Tablet - Vol Mute
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-tablet/audio-commands/audio/mute
+        payload: ""
+  mode: single
+tablet_displays_on:
+  alias: Tablet - Displays ON
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-tablet/commands/displays/on
+        payload: ""
+tablet_displays_off:
+  alias: Tablet - Displays OFF
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-tablet/commands/displays/off
+        payload: ""
+tablet_refresh:
+  alias: Tablet - Refresh
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-tablet/refresh
+        payload: ""
+tablet_notify:
+  alias: Tablet - Notify
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-tablet/commands/notify
+        payload:
+          '{ "title": "My Notification Title", "message": "This is an example
+          of notification using IOT Link", "launchParams": "toast://open/https://iotlink.gitlab.io"
+          }'
+tablet_run_chrome:
+  alias: Tablet - Run Chrome
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-tablet/commands/run
+        payload:
+          '{ "command": "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+          "args": "https://iotlink.gitlab.io", "path": "C:\\Program Files (x86)\\Google\\Chrome\\Application",
+          "user": "", "visible": true, "fallback": true }'
+tablet_run_ccleaner:
+  alias: Tablet - Run CCleaner
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-tablet/commands/run
+        payload:
+          '{ "command": "C:\\Program Files\\CCleaner\\CCleaner64.exe", "args":
+          "/AUTO", "path": "C:\\Program Files\\CCleaner\\", "user": "", "visible": true,
+          "fallback": true }'
+tablet_media_playpause:
+  alias: Tablet - Media Play/Pause
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-tablet/commands/media/playpause
+        payload: ""
+  mode: single
+tablet_media_next:
+  alias: Tablet - Media Next
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-tablet/commands/media/next
+        payload: ""
+  mode: single
+tablet_media_previous:
+  alias: Tablet - Media Previous
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-tablet/commands/media/previous
+        payload: ""
+  mode: single
