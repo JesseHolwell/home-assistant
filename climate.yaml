@@ -2,7 +2,7 @@
   unique_id: climate.roomtemp
   name: Thermostat
   heater: switch.heater
-  target_sensor: sensor.hue_motion_sensor_1_temperature
+  target_sensor: sensor.bedroom_motion_sensor_temperature
   min_temp: 10
   max_temp: 30
   target_temp: 20.5

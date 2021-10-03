@@ -1,180 +1,248 @@
-- id: '1629122080494'
+- id: "1629122080494"
   alias: Thermostat_Day
-  description: ''
+  description: ""
   trigger:
-  - platform: time
-    at: 08:00:00
-  - platform: homeassistant
-    event: start
-  - platform: state
-    entity_id: input_number.climate_temperature_day
+    - platform: time
+      at: input_datetime.climate_time_day
+    - platform: homeassistant
+      event: start
+    - platform: state
+      entity_id: input_number.climate_temperature_day
   condition:
-  - condition: time
-    after: 08:00:00
-    before: '23:59:59'
-    weekday:
-    - mon
-    - tue
-    - wed
-    - thu
-    - fri
+    - condition: state
+      entity_id: input_boolean.climate_temperature_automation
+      state: "on"
+    - condition: time
+      after: input_datetime.climate_time_day
+      before: input_datetime.climate_time_night
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
   action:
-  - service: climate.set_temperature
-    target:
-      entity_id: climate.thermostat
-    data:
-      temperature: '{{ states("input_number.climate_temperature_day") }}'
+    - service: climate.set_temperature
+      target:
+        entity_id: climate.thermostat
+      data:
+        temperature: '{{ states("input_number.climate_temperature_day") }}'
   mode: single
-- id: '1629122257639'
+- id: "1629122257639"
   alias: Thermostat_Night
-  description: ''
+  description: ""
   trigger:
-  - platform: time
-    at: 00:00:00
-  - platform: homeassistant
-    event: start
-  - platform: state
-    entity_id: input_number.climate_temperature_night
+    - platform: time
+      at: input_datetime.climate_time_night
+    - platform: homeassistant
+      event: start
+    - platform: state
+      entity_id: input_number.climate_temperature_night
   condition:
-  - condition: time
-    after: 00:00:00
-    before: 07:59:59
-    weekday:
-    - sun
-    - mon
-    - tue
-    - wed
-    - thu
+    - condition: state
+      entity_id: input_boolean.climate_temperature_automation
+      state: "on"
+    - condition: time
+      after: input_datetime.climate_time_night
+      before: input_datetime.climate_time_day
+      weekday:
+        - sun
+        - mon
+        - tue
+        - wed
+        - thu
   action:
-  - service: climate.set_temperature
-    target:
-      entity_id: climate.thermostat
-    data:
-      temperature: '{{ states("input_number.climate_temperature_night") }}'
+    - service: climate.set_temperature
+      target:
+        entity_id: climate.thermostat
+      data:
+        temperature: '{{ states("input_number.climate_temperature_night") }}'
   mode: single
-- id: '1629630282847'
+- id: "1629630282847"
   alias: On Start
-  description: ''
+  description: ""
   trigger:
-  - platform: homeassistant
-    event: start
+    - platform: homeassistant
+      event: start
   condition: []
   action:
-  - service: climate.turn_on
-    target:
-      entity_id: climate.thermostat
+    - service: climate.turn_on
+      target:
+        entity_id: climate.thermostat
   mode: single
-- id: '1629684157140'
+- id: "1629122080495"
+  alias: Blankets_On
+  description: ""
+  trigger:
+    - platform: time
+      at: input_datetime.climate_blanket_on
+    - platform: state
+      entity_id: input_datetime.climate_blanket_on
+  condition:
+    - condition: state
+      entity_id: input_boolean.climate_blanket_automation
+      state: "on"
+    - condition: time
+      after: input_datetime.climate_blanket_on
+      before: input_datetime.climate_blanket_off
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+  action:
+    - service: switch.turn_on
+      target:
+        entity_id: switch.blankets
+- id: "1629122080496"
+  alias: Blankets_Off
+  description: ""
+  trigger:
+    - platform: time
+      at: input_datetime.climate_blanket_off
+    - platform: state
+      entity_id: input_datetime.climate_blanket_off
+  condition:
+    - condition: state
+      entity_id: input_boolean.climate_blanket_automation
+      state: "on"
+    - condition: time
+      after: input_datetime.climate_blanket_off
+      before: input_datetime.climate_blanket_on
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+  action:
+    - service: switch.turn_off
+      target:
+        entity_id: switch.blankets
+- id: "1629684157140"
   alias: PC - Set Volume
-  description: ''
+  description: ""
   trigger:
-  - platform: state
-    entity_id: input_number.pc_volume
+    - platform: state
+      entity_id: input_number.pc_volume
   condition: []
   action:
-  - service: script.pc_vol_set
+    - service: script.pc_vol_set
   mode: single
-- id: '1632580681227'
+- id: "1632580681227"
   alias: Washing Machine Notify
-  description: ''
+  description: ""
   trigger:
-  - platform: state
-    entity_id: binary_sensor.washing_machine_running
-    to: 'off'
-    from: 'on'
+    - platform: state
+      entity_id: binary_sensor.washing_machine_running
+      to: "off"
+      from: "on"
   condition:
-  - condition: state
-    entity_id: input_boolean.washing_machine_notify
-    state: 'on'
+    - condition: state
+      entity_id: input_boolean.washing_machine_notify
+      state: "on"
   action:
-  - service: notify.alexa_media
-    data:
-      message: The washing machine is done
-      target: media_player.desk_speaker
+    - service: notify.alexa_media
       data:
-        type: tts
-  - service: homeassistant.toggle
-    entity_id: input_boolean.washing_machine_notify
+        message: The washing machine is done
+        target: media_player.desk_speaker
+        data:
+          type: tts
+    - service: homeassistant.toggle
+      entity_id: input_boolean.washing_machine_notify
   mode: single
-- id: '1632751153739'
+- id: "1632751153739"
   alias: Dishwasher Notify
-  description: ''
+  description: ""
   trigger:
-  - platform: state
-    entity_id: binary_sensor.dishwasher_running
-    to: 'off'
-    from: 'on'
+    - platform: state
+      entity_id: binary_sensor.dishwasher_running
+      to: "off"
+      from: "on"
   condition:
-  - condition: state
-    entity_id: input_boolean.dishwasher_notify
-    state: 'on'
+    - condition: state
+      entity_id: input_boolean.dishwasher_notify
+      state: "on"
   action:
-  - service: notify.alexa_media
-    data:
-      message: The dishwasher is done
-      target: media_player.desk_speaker
+    - service: notify.alexa_media
       data:
-        type: tts
-  - service: homeassistant.toggle
-    entity_id: input_boolean.dishwasher_notify
+        message: The dishwasher is done
+        target: media_player.desk_speaker
+        data:
+          type: tts
+    - service: homeassistant.toggle
+      entity_id: input_boolean.dishwasher_notify
   mode: single
-- id: '1632894952493'
+- id: "1632894952493"
   alias: Advanced medication reminder
-  description: ''
+  description: ""
   use_blueprint:
     path: Aohzan/medication_reminder.yaml
     input:
       logbook_message_no_answer: No answer time out
       notify_device: 2144ae6862dd494a9b1fec24da94cb86
       input_boolean: input_boolean.medication_notify
-      ask_later_wait_time: 60
-      reminder_time: '22:00:00'
-- id: '1632896282930'
+      ask_later_wait_time: 30
+      reminder_time: "22:00:00"
+- id: "1632896282930"
   alias: Bin Day
-  description: ''
+  description: ""
   trigger:
-  - platform: time
-    at: '17:00:00'
+    - platform: time
+      at: "17:00:00"
   condition:
-  - condition: time
-    weekday:
-    - thu
+    - condition: time
+      weekday:
+        - thu
   action:
-  - service: homeassistant.toggle
-    entity_id: input_boolean.bins_notify
+    - service: homeassistant.toggle
+      entity_id: input_boolean.bins_notify
   mode: single
-- id: '1632919698313'
-  alias: Uber eats arrival
-  description: ''
+- id: "1632919698313"
+  alias: Notify when uber eats arrives
+  description: ""
   trigger:
-  - platform: state
-    entity_id: sensor.jesse_galaxy_last_notification
+    - platform: state
+      entity_id: sensor.jesse_galaxy_last_notification
   condition:
-  - condition: template
-    value_template: '{{ ''a moment to leave your order at the door'' in trigger.to_state.state
-      }}'
+    - condition: template
+      value_template:
+        "{{ 'a moment to leave your order at the door' in trigger.to_state.state
+        }}"
   action:
-  - service: notify.alexa_media
-    data:
-      message: Your meal has arrived
-      target: media_player.desk_speaker
+    - service: notify.alexa_media
       data:
-        type: tts
+        message: Your meal has arrived, enjoy!
+        target: media_player.desk_speaker
+        data:
+          type: tts
   mode: single
-- id: '1632997036056'
-  alias: Uber eats on its way
-  description: ''
+- id: "1632997036056"
+  alias: Notify when uber eats is on its way
+  description: ""
   trigger:
-  - platform: state
-    entity_id: sensor.jesse_galaxy_last_notification
+    - platform: state
+      entity_id: sensor.jesse_galaxy_last_notification
   condition:
-  - condition: template
-    value_template: '{{ ''Your order is on the move!'' in trigger.to_state.state }}'
+    - condition: template
+      value_template: "{{ 'Your order is on the move!' in trigger.to_state.state }}"
   action:
-  - service: notify.alexa_media
-    data:
-      message: Your order is on it''s way
-      target: media_player.desk_speaker
+    - service: notify.alexa_media
       data:
-        type: tts
+        message: Your order is on it''s way
+        target: media_player.desk_speaker
+        data:
+          type: tts
+  mode: single
+- id: "1632997036057"
+  alias: Turn on TV when chromecast starts
+  description: ""
+  trigger:
+    - platform: state
+      entity_id: media_player.jerryvision
+      to: "playing"
+  action:
+    - service: switch.turn_on
+      entity_id: switch.tv
   mode: single

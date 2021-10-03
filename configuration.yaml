@@ -24,7 +24,7 @@ frontend:
 automation: !include automations.yaml
 group: !include groups.yaml
 scene: !include scenes.yaml
-script: !include_dir_merge_named scripts/
+script: !include_dir_merge_named scripts/ #TODO: should make a UI scripts as well
 
 # Custom stuff
 
@@ -33,7 +33,8 @@ camera: !include_dir_merge_named camera/
 climate: !include climate.yaml
 device_tracker: !include device_tracker.yaml
 sensor: !include_dir_merge_named sensor/
-# switch: !include_dir_merge_named switch/
+# switch: !include_dir_merge_named switch/ #TODO: Fix this stuff
+light: !include lights.yaml
 
 # Why wont this include
 binary_sensor:

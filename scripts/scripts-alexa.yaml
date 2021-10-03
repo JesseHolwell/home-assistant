@@ -13,9 +13,10 @@ goodnight:
         entity_id:
           - switch.lamp
           - switch.fairies
-          - switch.lights
           - switch.tv
           - switch.vr
+    - service: light.turn_off
+      entity_id: group.bedroom_lights
 
 goodmorning:
   alias: Goodmorning
@@ -23,6 +24,14 @@ goodmorning:
     - service: script.desk_speaker_screen_on
     - service: script.bedside_speaker_screen_on
     - service: script.pc_wake
+    # - alias: "if its a workday"
+    #   condition: time
+    #   weekday:
+    #     - sun
+    #     - mon
+    #     - tue
+    #     - wed
+    #     - thu
     # - service: script.wc_wake # if workday
     - service: script.tablet_wake
     - service: switch.turn_on
