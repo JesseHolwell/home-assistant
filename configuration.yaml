@@ -53,6 +53,24 @@ binary_sensor:
     payload_off: "OFF"
     device_class: "connectivity"
     qos: 1
+  - platform: template
+    sensors:
+      washing_machine_running:
+        friendly_name: "Washing Machine - Running"
+        value_template: >-
+          {% if (states("sensor.washing_machine_current_consumption") | float >= 3) %}
+              true
+          {% else %}
+              false
+          {%- endif %}
+      dishwasher_running:
+        friendly_name: "Dishwasher - Running"
+        value_template: >-
+          {% if (states("sensor.dishwasher_current_consumption") | float >= 3) %}
+              true
+          {% else %}
+              false
+          {%- endif %}
 
 switch:
   - platform: template
@@ -96,3 +114,9 @@ template:
         friendly_name: "Outside Wind Speed"
         unit_of_measurement: "km/h"
         value_template: "{{ state_attr('weather.home', 'wind_speed') }}"
+      washing_machine_change_time:
+        friendly_name: Washing Machine
+        value_template: "{{ ((as_timestamp(now()) - as_timestamp(states.binary_sensor.washing_machine_running.last_changed)) / 60 ) | int }} mins ago"
+      dishwasher_change_time:
+        friendly_name: Dishwasher
+        value_template: "{{ ((as_timestamp(now()) - as_timestamp(states.binary_sensor.dishwasher_running.last_changed)) / 60 ) | int }} mins ago"

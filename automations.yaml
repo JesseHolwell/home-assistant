@@ -74,3 +74,107 @@
   action:
   - service: script.pc_vol_set
   mode: single
+- id: '1632580681227'
+  alias: Washing Machine Notify
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.washing_machine_running
+    to: 'off'
+    from: 'on'
+  condition:
+  - condition: state
+    entity_id: input_boolean.washing_machine_notify
+    state: 'on'
+  action:
+  - service: notify.alexa_media
+    data:
+      message: The washing machine is done
+      target: media_player.desk_speaker
+      data:
+        type: tts
+  - service: homeassistant.toggle
+    entity_id: input_boolean.washing_machine_notify
+  mode: single
+- id: '1632751153739'
+  alias: Dishwasher Notify
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.dishwasher_running
+    to: 'off'
+    from: 'on'
+  condition:
+  - condition: state
+    entity_id: input_boolean.dishwasher_notify
+    state: 'on'
+  action:
+  - service: notify.alexa_media
+    data:
+      message: The dishwasher is done
+      target: media_player.desk_speaker
+      data:
+        type: tts
+  - service: homeassistant.toggle
+    entity_id: input_boolean.dishwasher_notify
+  mode: single
+- id: '1632894952493'
+  alias: Advanced medication reminder
+  description: ''
+  use_blueprint:
+    path: Aohzan/medication_reminder.yaml
+    input:
+      logbook_message_no_answer: No answer time out
+      notify_device: 2144ae6862dd494a9b1fec24da94cb86
+      input_boolean: input_boolean.medication_notify
+      ask_later_wait_time: 60
+      reminder_time: '22:00:00'
+- id: '1632896282930'
+  alias: Bin Day
+  description: ''
+  trigger:
+  - platform: time
+    at: '17:00:00'
+  condition:
+  - condition: time
+    weekday:
+    - thu
+  action:
+  - service: homeassistant.toggle
+    entity_id: input_boolean.bins_notify
+  mode: single
+- id: '1632919698313'
+  alias: Uber eats arrival
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.jesse_galaxy_last_notification
+  condition:
+  - condition: template
+    value_template: '{{ ''a moment to leave your order at the door'' in trigger.to_state.state
+      }}'
+  action:
+  - service: notify.alexa_media
+    data:
+      message: Your meal has arrived
+      target: media_player.desk_speaker
+      data:
+        type: tts
+  mode: single
+- id: '1632997036056'
+  alias: Uber eats on its way
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.jesse_galaxy_last_notification
+  condition:
+  - condition: template
+    value_template: '{{ ''Your order is on the move!'' in trigger.to_state.state }}'
+  action:
+  - service: notify.alexa_media
+    data:
+      message: Your order is on it''s way
+      target: media_player.desk_speaker
+      data:
+        type: tts
+  mode: single

@@ -6,7 +6,7 @@ pc_wake:
   sequence:
     - service: wake_on_lan.send_magic_packet
       data:
-        mac: 24-4B-FE-5A-8F-88
+        mac: !secret pc-mac
 
 # IOTLink
 pc_shutdown:

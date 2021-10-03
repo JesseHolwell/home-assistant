@@ -2,8 +2,12 @@
 # kibibit theme - Default ('White' Cards)
 #
 kibibit:
+  paper-item-icon-color: "#9da0a2"
+  primary-text-color: "#e1e1e1"
+
   # Global
-  background-image: "center / cover no-repeat fixed #111111"
+  background-image: "center / cover no-repeat fixed url('https://raw.githubusercontent.com/matt8707/hass-config/master/www/background.png')"
+  # background-image: "center / cover no-repeat fixed #111111"
   lovelace-background: var(--background-image)
   primary-color: "#209cee"
   light-primary-color: "#B6B6C1"
@@ -21,7 +25,7 @@ kibibit:
   paper-font-caption_-_font-family: "var(--primary-font-family)"
   paper-font-title_-_font-family: "var(--primary-font-family)"
   # Text
-  primary-text-color: "#FFF"
+  # primary-text-color: "#FFF"
   secondary-text-color: "#d3d3d3"
   text-primary-color: "#FFF"
   disabled-text-color: "#555" # XXX: https://github.com/basnijholt/lovelace-ios-dark-mode-theme/issues/2
@@ -53,7 +57,7 @@ kibibit:
   # Cards
   card-background-color: var(--secondary-background-color) # Unused entities table background
   paper-listbox-background-color: var(--primary-background-color)
-  ha-card-border-radius: 20px
+  ha-card-border-radius: 10px
   ha-card-background: "rgba(150, 150, 150, 0.1)"
   paper-card-background-color: var(--ha-card-background)
   # Toggles
@@ -70,7 +74,7 @@ kibibit:
   switch-checked-button-color: "#FFF"
   # Other
   paper-dialog-background-color: rgba(55, 55, 55, 0.6)
-  paper-item-icon-color: white # also should mini-media-player icon white (but doesn't work by itself)
+  # paper-item-icon-color: white # also should mini-media-player icon white (but doesn't work by itself)
   more-info-header-background: rgba(25, 25, 25, 0.5)
   app-header-background-color: var(--primary-background-color)
   # Custom

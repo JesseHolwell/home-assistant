@@ -22,6 +22,18 @@ pc_wallpaper_pause:
           "args": "-control pause",
           "user": "", "visible": true, "fallback": true }'
 
+pc_wallpaper_stop:
+  alias: PC - Wallpaper Stop
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-pc/commands/run
+        payload:
+          '{ "command": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\wallpaper_engine\\wallpaper32.exe",
+          "path": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\wallpaper_engine",
+          "args": "-control closeWallpaper",
+          "user": "", "visible": true, "fallback": true }'
+
 pc_wallpaper_bubbles:
   alias: PC - Wallpaper Bubbles
   sequence:
@@ -57,6 +69,8 @@ pc_wallpaper_wolf:
           "path": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\wallpaper_engine",
           "args": "-control openWallpaper -file \"C:\\Program Files (x86)\\Steam\\steamapps\\workshop\\content\\431960\\1661519625\\project.json\"",
           "user": "", "visible": true, "fallback": true }'
+
+# TODO: make a generic one?
 # pc_wallpaper_set:
 #   alias: PC - Wallpaper Set
 #   sequence:
@@ -68,3 +82,33 @@ pc_wallpaper_wolf:
 #           "path": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\wallpaper_engine",
 #           "args": "-control pause",
 #           "user": "", "visible": true, "fallback": true }'
+
+pc_fan_sync:
+  alias: PC - Restart Jacknet
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-pc/commands/run
+        payload:
+          '{ "command": "C:\\Users\\jesse\\AppData\\Roaming\\JackNet RGB Sync\\RestartHelper.exe",
+          "args": "", "path": "C:\\Users\\jesse\\AppData\\Roaming\\JackNet RGB Sync",
+          "user": "", "visible": true, "fallback": true }'
+
+pc_hue_sync:
+  alias: "PC - Hue Sync"
+  # sequence:
+  #   - service: mqtt.publish
+  #     data:
+  #       topic: iotlink/workgroup/jesse-pc/commands/run
+  #       payload:
+  #         '{ "command": "C:\\Users\\jesse\\Documents\\automation\\hue-sync.ahk",
+  #         "args": "", "path": "C:\\Users\\jesse\\Documents\\automation",
+  #         "user": "", "visible": true, "fallback": true }'
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: iotlink/workgroup/jesse-pc/commands/run
+        payload: >-
+          { "command": "C:\\Program Files\\AutoHotkey\\AutoHotkey.exe", "args":
+          "C:\\Users\\jesse\\Documents\\automation\\hue-sync.ahk",
+          "path": "", "user": "", "visible": true, "fallback": true }

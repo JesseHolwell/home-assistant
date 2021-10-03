@@ -8,8 +8,14 @@ goodnight:
     - service: script.pc_suspend
     - service: script.wc_suspend
     - service: script.tablet_suspend
-    - service: light.turn_off
-      entity_id: all
+    - service: switch.turn_off
+      target:
+        entity_id:
+          - switch.lamp
+          - switch.fairies
+          - switch.lights
+          - switch.tv
+          - switch.vr
 
 goodmorning:
   alias: Goodmorning
@@ -19,8 +25,11 @@ goodmorning:
     - service: script.pc_wake
     # - service: script.wc_wake # if workday
     - service: script.tablet_wake
-    - service: light.turn_on
-      entity_id: all
+    - service: switch.turn_on
+      target:
+        entity_id:
+          - switch.lamp
+          - switch.fairies
 
 desk_speaker_screen_off:
   alias: Desk Speaker - Screen Off

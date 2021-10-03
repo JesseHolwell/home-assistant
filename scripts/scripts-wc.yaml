@@ -6,7 +6,7 @@ wc_wake:
   sequence:
     - service: wake_on_lan.send_magic_packet
       data:
-        mac: A4-BB-6D-46-A0-AB
+        mac: !secret wc-mac
 
 # IOTLink
 wc_shutdown:

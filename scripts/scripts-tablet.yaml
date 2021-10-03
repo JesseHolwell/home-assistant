@@ -6,7 +6,7 @@ tablet_wake:
   sequence:
     - service: wake_on_lan.send_magic_packet
       data:
-        mac: C0-33-5E-28-7B-DD
+        mac: !secret tablet-mac
 
 # IOTLink
 tablet_shutdown:
