@@ -4,6 +4,7 @@ homeassistant:
   longitude: !secret longitude_home
   unit_system: metric
   time_zone: Australia/Melbourne
+  currency: AUD
 
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
@@ -14,11 +15,13 @@ wake_on_lan:
 tts:
   - platform: google_translate
 
-# Spotify
-spotify: !include spotify.yaml
-
 frontend:
   themes: !include_dir_merge_named themes
+
+#Switchbot
+# cover:
+#   - platform: switchbot-curtain
+#     mac: FD:3C:9D:42:C4:8B
 
 # Base stuff
 automation: !include automations.yaml
@@ -36,24 +39,37 @@ sensor: !include_dir_merge_named sensor/
 # switch: !include_dir_merge_named switch/ #TODO: Fix this stuff
 light: !include lights.yaml
 
+# hass.agent
+media_player:
+  name: "jesse_pc_media_player"
+  platform: hass_agent_mediaplayer
+  host: 192.168.1.106
+
 # Why wont this include
 binary_sensor:
-  - platform: mqtt
-    name: "PC - Connected"
-    state_topic: "iotlink/workgroup/jesse-pc/lwt"
-    value_template: "{{ value }}"
-    payload_on: "ON"
-    payload_off: "OFF"
-    device_class: "connectivity"
-    qos: 1
-  - platform: mqtt
-    name: "WC - Connected"
-    state_topic: "iotlink/workgroup/jdh-pc/lwt"
-    value_template: "{{ value }}"
-    payload_on: "ON"
-    payload_off: "OFF"
-    device_class: "connectivity"
-    qos: 1
+  # - platform: mqtt
+  #   name: "PC - Connected"
+  #   state_topic: "iotlink/workgroup/jesse-pc/lwt"
+  #   value_template: "{{ value }}"
+  #   payload_on: "ON"
+  #   payload_off: "OFF"
+  #   device_class: "connectivity"
+  #   qos: 1
+  # - platform: mqtt
+  #   name: "WC - Connected"
+  #   state_topic: "iotlink/workgroup/jdh-pc/lwt"
+  #   value_template: "{{ value }}"
+  #   payload_on: "ON"
+  #   payload_off: "OFF"
+  #   device_class: "connectivity"
+  #   qos: 1
+
+  - platform: command_line
+    name: HA - CPU Temperature
+    command: "cat /sys/class/thermal/thermal_zone0/temp"
+    # If errors occur, make sure configuration file is encoded as UTF-8
+    unit_of_measurement: "°C"
+    value_template: "{{ value | multiply(0.001) | round(1) }}"
   - platform: template
     sensors:
       washing_machine_running:
@@ -102,22 +118,66 @@ switch:
         icon_template: mdi:laptop
 
 template:
-  - sensors:
-      outside_temperature:
-        friendly_name: "Outside Temperature"
+  - sensor:
+      - name: "Outside Temperature"
+        unique_id: climate.outside_temperature
         unit_of_measurement: "°C"
-        value_template: "{{ state_attr('weather.home', 'temperature') }}"
-      outside_humidity:
-        friendly_name: "Outside Humidity"
+        state: "{{ state_attr('weather.home', 'temperature') }}"
+  - sensor:
+      - name: "Outside Humidity"
+        unique_id: sensor.outside_humidity
         unit_of_measurement: "%"
-        value_template: "{{ state_attr('weather.home', 'humidity') }}"
-      outside_wind_speed:
-        friendly_name: "Outside Wind Speed"
+        state: "{{ state_attr('weather.home', 'humidity') }}"
+  - sensor:
+      - name: "Outside Wind Speed"
+        unique_id: sensor.outside_wind_speed
         unit_of_measurement: "km/h"
-        value_template: "{{ state_attr('weather.home', 'wind_speed') }}"
-      washing_machine_change_time:
-        friendly_name: Washing Machine
-        value_template: "{{ ((as_timestamp(now()) - as_timestamp(states.binary_sensor.washing_machine_running.last_changed)) / 60 ) | int }} mins ago"
-      dishwasher_change_time:
-        friendly_name: Dishwasher
-        value_template: "{{ ((as_timestamp(now()) - as_timestamp(states.binary_sensor.dishwasher_running.last_changed)) / 60 ) | int }} mins ago"
+        state: "{{ state_attr('weather.home', 'wind_speed') }}"
+  - sensor:
+      - name: Washing Machine
+        unique_id: sensor.washing_machine_change_time
+        state: "{{ ((as_timestamp(now()) - as_timestamp(states.binary_sensor.washing_machine_running.last_changed)) / 60 ) | int }} mins ago"
+  - sensor:
+      - name: "Dishwasher"
+        unique_id: sensor.dishwasher_change_time
+        state: "{{ ((as_timestamp(now()) - as_timestamp(states.binary_sensor.dishwasher_running.last_changed)) / 60 ) | int }} mins ago"
+
+        #CURTAINS
+
+rest_command:
+  switchbot_device_command:
+    url: "https://api.switch-bot.com/v1.0/devices/{{ deviceId }}/commands"
+    method: post
+    content_type: "application/json"
+    headers:
+      Authorization: !secret switchbot_api
+    payload: '{"command": "{{ command }}","parameter": "{{ parameter }}"}'
+
+cover:
+  - platform: template
+    covers:
+      bedroom_curtains:
+        device_class: curtain
+        friendly_name: "Bedroom Curtains"
+        position_template: "{{ states('sensor.bedroom_curtain_position') }}"
+        open_cover:
+          service: rest_command.switchbot_device_command
+          data:
+            deviceId: !secret switchbot_bedroom_deviceId
+            command: "turnOn"
+        close_cover:
+          service: rest_command.switchbot_device_command
+          data:
+            deviceId: !secret switchbot_bedroom_deviceId
+            command: "turnOff"
+        stop_cover:
+          service: rest_command.switchbot_device_command
+          data:
+            deviceId: !secret switchbot_bedroom_deviceId
+            command: "turnOff"
+        set_cover_position:
+          service: rest_command.switchbot_device_command
+          data:
+            deviceId: !secret switchbot_bedroom_deviceId
+            command: "setPosition"
+            parameter: "0,ff,{{position}}"

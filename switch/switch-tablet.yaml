@@ -1,13 +1,13 @@
-# Switches
-# Work Computer
+# # Switches
+# # Work Computer
 
-- platform: template
-  switches:
-    tablet:
-      friendly_name: "Tablet Computer"
-      value_template: "{{ is_state('binary_sensor.tablet_connected', 'on') }}"
-      turn_on:
-        service: script.tablet_wake
-      turn_off:
-        service: script.tablet_suspend
-      icon_template: mdi:laptop
+# - platform: template
+#   switches:
+#     tablet:
+#       friendly_name: "Tablet Computer"
+#       value_template: "{{ is_state('binary_sensor.tablet_connected', 'on') }}"
+#       turn_on:
+#         service: script.tablet_wake
+#       turn_off:
+#         service: script.tablet_suspend
+#       icon_template: mdi:laptop

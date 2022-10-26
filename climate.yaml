@@ -11,5 +11,5 @@
   min_cycle_duration:
     seconds: 5
   initial_hvac_mode: "off"
-  #away_temp: 16
+  # away_temp: input_number.climate_temperature_night
   precision: 0.5

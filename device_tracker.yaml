@@ -1,4 +1,0 @@
-- platform: ping
-  hosts:
-    # OPPO-A9-2020 - Iva?
-    device_name_1: 192.168.0.249

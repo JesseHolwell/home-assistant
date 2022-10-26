@@ -3,3 +3,5 @@ bedroom_lights:
   entities:
     - light.bedroom_light_1
     - light.bedroom_light_2
+    - light.hue_play_1
+    - light.hue_play_2

@@ -11,7 +11,8 @@
 *.db-shm
 *.db-wal
 *.sqlite
-*.log   
+*.log
+*.log.*
 *.db
 *.sqlite
 .cloud

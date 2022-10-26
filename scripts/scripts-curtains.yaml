@@ -1,0 +1,13 @@
+curtain_open:
+  alias: Curtain Open
+  sequence:
+    service: cover.open_cover
+    target:
+      entity_id: cover.bedroom_curtains
+
+curtain_close:
+  alias: Curtain Close
+  sequence:
+    service: cover.close_cover
+    target:
+      entity_id: cover.bedroom_curtains
